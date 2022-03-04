@@ -270,6 +270,11 @@
   resolved "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
+"@leomotors/scripts@^3.0.7":
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@leomotors/scripts/-/scripts-3.0.7.tgz#8f5c1bc8d1f46a47531697b606ce54f5e4b9f0bd"
+  integrity sha512-P4+WartMVzqLLHR9PCH6UykBvlOz5b1ibttmpqPGWd/IDlIrrGEgBnb8CttD6EKhKCjjc3d3FWCdIjxCO+63Yg==
+
 "@mapbox/node-pre-gyp@1.0.4":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@mapbox/node-pre-gyp/-/node-pre-gyp-1.0.4.tgz#6c76e7a40138eac39e1a4dc869a083e43e236c00"

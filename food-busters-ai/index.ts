@@ -3,7 +3,7 @@ import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { checkVersion, getMLResult, makeRes, VersionRejectReason } from "./lib";
 
 const MinAppVersion = 306;
-const MinWebVersion = 1;
+const MinWebVersion = 2;
 
 const index: AzureFunction = async (context: Context, req: HttpRequest) => {
     const { body, headers } = req;

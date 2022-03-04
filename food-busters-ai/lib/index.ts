@@ -1,16 +1,28 @@
 import * as tf from "@tensorflow/tfjs-node";
 
-const labelMap = {
-    1: "Omelet Rice",
-    2: "Chicken Rice",
-} as const;
+import { Version } from "../../config";
 
-type valueOf<T> = T[keyof T];
+import { MLResult, FoodNutrition } from "./types";
 
-export interface MLResult {
-    type: valueOf<typeof labelMap>;
-    score: number;
-}
+const labelMap: { [key: number]: { name: string; nutrition: FoodNutrition } } =
+    {
+        1: {
+            name: "Omelet Rice",
+            nutrition: {
+                carbohydrate: 65,
+                fat: 15,
+                protein: 20,
+            },
+        },
+        2: {
+            name: "Chicken Rice",
+            nutrition: {
+                carbohydrate: 45,
+                fat: 25,
+                protein: 30,
+            },
+        },
+    };
 
 // const mroot = "food-busters-ai/model";
 
@@ -33,11 +45,15 @@ export async function getMLResult(img: string) {
         .expandDims(0);
     const obj = await net.executeAsync(transformed);
 
+    // @ts-ignore
+    const detected: number = (await obj[7].array())[0][0];
+
     const result: MLResult = {
-        // @ts-ignore
-        type: labelMap[(await obj[7].array())[0][0]],
+        foodName: labelMap[detected].name,
+        foodNutrition: labelMap[detected].nutrition,
         // @ts-ignore
         score: (await obj[2].array())[0][0],
+        version: Version,
     };
 
     tf.dispose(decodedImage);
