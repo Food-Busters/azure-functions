@@ -25,6 +25,7 @@ const labelMap: { [key: number]: { name: string; nutrition: FoodNutrition } } =
     };
 
 // const mroot = "food-busters-ai/model";
+let net: tf.GraphModel;
 
 export async function getMLResult(img: string) {
     // const model = tf.io.fileSystem(`${mroot}/model.json`);
@@ -32,7 +33,7 @@ export async function getMLResult(img: string) {
     // const m2 = tf.io.fileSystem(`${mroot}/group1-shard2of3.bin`);
     // const m3 = tf.io.fileSystem(`${mroot}/group1-shard3of3.bin`);
 
-    const net = await tf.loadGraphModel(process.env.ML_ENDPOINT as string);
+    if (!net) net = await tf.loadGraphModel(process.env.ML_ENDPOINT as string);
 
     const decodedImage = tf.node.decodeImage(
         Buffer.from(img.replace(/^data:image\/.+;base64,/, ""), "base64"),

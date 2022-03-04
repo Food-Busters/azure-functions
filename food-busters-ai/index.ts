@@ -8,19 +8,6 @@ const MinWebVersion = 2;
 const index: AzureFunction = async (context: Context, req: HttpRequest) => {
     const { body, headers } = req;
 
-    if (!process.env.token) {
-        context.res = makeRes(
-            500,
-            "The server is unable to authorize incoming request"
-        );
-        return;
-    }
-
-    if (headers.token != process.env.token) {
-        context.res = makeRes(401, "Unauthorized");
-        return;
-    }
-
     const VersionCheck = checkVersion(
         headers.version,
         MinAppVersion,
