@@ -1,0 +1,4 @@
+[submodule "food-busters-ai/model"]
+	path = food-busters-ai/model
+	url = https://github.com/Food-Busters/FoodBuster_AI_v1
+	branch = tfjs

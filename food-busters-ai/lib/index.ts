@@ -12,12 +12,21 @@ export interface MLResult {
     score: number;
 }
 
+// const mroot = "food-busters-ai/model";
+
 export async function getMLResult(img: string) {
+    // const model = tf.io.fileSystem(`${mroot}/model.json`);
+    // const m1 = tf.io.fileSystem(`${mroot}/group1-shard1of3.bin`);
+    // const m2 = tf.io.fileSystem(`${mroot}/group1-shard2of3.bin`);
+    // const m3 = tf.io.fileSystem(`${mroot}/group1-shard3of3.bin`);
+
     const net = await tf.loadGraphModel(process.env.ML_ENDPOINT as string);
 
     const decodedImage = tf.node.decodeImage(
-        Buffer.from(img.replace(/^data:image\/.+;base64,/, ""), "base64")
+        Buffer.from(img.replace(/^data:image\/.+;base64,/, ""), "base64"),
+        3
     );
+
     const transformed = tf.image
         .resizeBilinear(decodedImage, [640, 480])
         .cast("int32")
