@@ -1,21 +1,64 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 
-const httpTrigger: AzureFunction = async function (
-    context: Context,
-    req: HttpRequest
-): Promise<void> {
-    context.log("HTTP trigger function processed a request.");
-    const name = req.query.name || (req.body && req.body.name);
-    const responseMessage = name
-        ? "Hello, " +
-          name +
-          ". This HTTP triggered function executed successfully."
-        : "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.";
+import { checkVersion, getMLResult, makeRes, VersionRejectReason } from "./lib";
+
+const MinAppVersion = 306;
+const MinWebVersion = 1;
+
+const index: AzureFunction = async (context: Context, req: HttpRequest) => {
+    const { body, headers } = req;
+
+    if (!process.env.token) {
+        context.res = makeRes(
+            500,
+            "The server is unable to authorize incoming request"
+        );
+        return;
+    }
+
+    if (headers.token != process.env.token) {
+        context.res = makeRes(401, "Unauthorized");
+        return;
+    }
+
+    const VersionCheck = checkVersion(
+        headers.version,
+        MinAppVersion,
+        MinWebVersion
+    );
+
+    if (VersionCheck != VersionRejectReason.PASS) {
+        context.res = makeRes(
+            400,
+            VersionCheck == VersionRejectReason.INVALID_VERSION
+                ? "Invalid Version"
+                : "Outdated Version"
+        );
+        return;
+    }
+
+    if (!body.image) {
+        context.res = makeRes(400, "Missing Image");
+        return;
+    }
+
+    if (!(body.image as string).startsWith("data:image/")) {
+        context.res = makeRes(400, "Not An Image");
+        return;
+    }
+
+    let result;
+    try {
+        result = await getMLResult(body.image);
+    } catch (err) {
+        context.res = makeRes(500, `Error executing Model: ${err}`);
+        return;
+    }
 
     context.res = {
-        // status: 200, /* Defaults to 200 */
-        body: responseMessage,
+        status: 200,
+        body: result,
     };
 };
 
-export default httpTrigger;
+export default index;
