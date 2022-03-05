@@ -1,9 +1,15 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 
-import { checkVersion, getMLResult, makeRes, VersionRejectReason } from "./lib";
+import {
+    checkVersion,
+    getMLLayerModel,
+    getMLResult,
+    makeRes,
+    VersionRejectReason,
+} from "./lib";
 
 const MinAppVersion = 306;
-const MinWebVersion = 2;
+const MinWebVersion = 4;
 
 const index: AzureFunction = async (context: Context, req: HttpRequest) => {
     const { body, headers } = req;
@@ -24,6 +30,11 @@ const index: AzureFunction = async (context: Context, req: HttpRequest) => {
         return;
     }
 
+    if (body.modelType != "P" && body.modelType != "U") {
+        context.res = makeRes(400, `Invalid Model Type: ${body.modelType}`);
+        return;
+    }
+
     if (!body.image) {
         context.res = makeRes(400, "Missing Image");
         return;
@@ -36,7 +47,9 @@ const index: AzureFunction = async (context: Context, req: HttpRequest) => {
 
     let result;
     try {
-        result = await getMLResult(body.image);
+        if (body.modelType == "P") result = await getMLResult(body.image);
+
+        if (body.modelType == "U") result = await getMLLayerModel(body.image);
     } catch (err) {
         context.res = makeRes(500, `Error executing Model: ${err}`);
         return;

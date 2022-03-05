@@ -1,7 +1,7 @@
 export interface MLResult {
     foodName: string;
     foodNutrition: FoodNutrition;
-    score: number;
+    confidence: number;
     version: string;
 }
 
