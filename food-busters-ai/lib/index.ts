@@ -96,16 +96,14 @@ export async function getMLResult(img: string) {
         .resizeBilinear(decodedImage, [640, 480])
         .cast("int32")
         .expandDims(0);
-    const obj = await net.executeAsync(transformed);
+    const obj = (await net.executeAsync(transformed)) as tf.Tensor[];
 
-    // @ts-ignore
-    const detected: number = (await obj[7].array())[0][0];
+    const detected: number = ((await obj[7].array()) as [number[]])[0][0];
 
     const result: MLResult = {
         foodName: labelMap[detected].name,
         foodNutrition: labelMap[detected].nutrition,
-        // @ts-ignore
-        confidence: (await obj[2].array())[0][0],
+        confidence: ((await obj[2].array()) as [number[]])[0][0],
         version: Version,
     };
 
