@@ -2,27 +2,26 @@ import * as tf from "@tensorflow/tfjs-node";
 
 import { Version } from "../../config";
 
-import { MLResult, FoodNutrition } from "./types";
+import { MLResult, FoodNutrition, Label } from "./types";
 
-const labelMap: { [key: number]: { name: string; nutrition: FoodNutrition } } =
-    {
-        1: {
-            name: "Omelet Rice",
-            nutrition: {
-                carbohydrate: 65,
-                fat: 15,
-                protein: 20,
-            },
+const labelMap: { [key: number]: { name: Label; nutrition: FoodNutrition } } = {
+    1: {
+        name: { en: "Omelet Rice", th: "ข้าวไข่เจียว" },
+        nutrition: {
+            carbohydrate: 65,
+            fat: 15,
+            protein: 20,
         },
-        2: {
-            name: "Chicken Rice",
-            nutrition: {
-                carbohydrate: 45,
-                fat: 25,
-                protein: 30,
-            },
+    },
+    2: {
+        name: { en: "Chicken Rice", th: "ข้าวมันไก่" },
+        nutrition: {
+            carbohydrate: 45,
+            fat: 25,
+            protein: 30,
         },
-    };
+    },
+};
 
 // const mroot = "food-busters-ai/model";
 let net: tf.GraphModel;

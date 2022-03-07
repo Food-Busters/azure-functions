@@ -1,12 +1,12 @@
 {
   "name": "food-busters-azure-functions",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Food Buster's Azure Functions",
   "repository": "https://github.com/Food-Busters/azure-functions",
   "author": "Leomotors",
   "license": "MIT",
   "scripts": {
-    "build": "yarn lm-config config.ts && tsc",
+    "build": "yarn lm-inc && yarn lm-config config.ts && tsc",
     "watch": "tsc -w",
     "prestart": "npm run build",
     "start": "func start",

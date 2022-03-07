@@ -1,8 +1,13 @@
 export interface MLResult {
-    foodName: string;
+    foodName: Label;
     foodNutrition: FoodNutrition;
     confidence: number;
     version: string;
+}
+
+export interface Label {
+    en: string;
+    th?: string;
 }
 
 export interface FoodNutrition {
