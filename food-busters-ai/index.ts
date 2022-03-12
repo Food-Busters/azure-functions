@@ -8,8 +8,8 @@ import {
     VersionRejectReason,
 } from "./lib";
 
-const MinAppVersion = 321;
-const MinWebVersion = 6;
+const MinAppVersion = 405;
+const MinWebVersion = 8;
 
 const index: AzureFunction = async (context: Context, req: HttpRequest) => {
     const { body, headers } = req;

@@ -8,22 +8,23 @@ const labelMap: { [key: number]: { name: Label; nutrition: FoodNutrition } } = {
     1: {
         name: { en: "Omelet Rice", th: "ข้าวไข่เจียว" },
         nutrition: {
-            carbohydrate: 65,
-            fat: 15,
-            protein: 20,
+            carbohydrate: 280,
+            fat: 180,
+            protein: 100,
+            pollution: 635,
         },
     },
     2: {
         name: { en: "Chicken Rice", th: "ข้าวมันไก่" },
         nutrition: {
-            carbohydrate: 45,
-            fat: 25,
-            protein: 30,
+            carbohydrate: 280,
+            fat: 0,
+            protein: 640,
+            pollution: 848,
         },
     },
 };
 
-// const mroot = "food-busters-ai/model";
 let net: tf.GraphModel;
 let lnet: tf.LayersModel;
 

@@ -14,4 +14,5 @@ export interface FoodNutrition {
     carbohydrate: number;
     fat: number;
     protein: number;
+    pollution: number;
 }
